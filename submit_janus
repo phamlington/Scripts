@@ -1,0 +1,79 @@
+#! /bin/sh
+#######################################################################
+### Set case parameters
+### user: User
+### jobn: The name of the output file in data directory
+### pnum: Project number for charging/allocation purposes
+### time: Used to index outputs for different times
+### rund: Name of the run directory where data are placed
+### runo: Standard output filename
+### dirm: Location of the submit script and output directory
+### csrc: Directory containing code source
+user=peha5625
+jobn=yellow
+pnum=UCB00000052
+time=000000_000100
+rund=run1
+runo=$jobn.out.$time
+dirm=/lustre/janus_scratch/peha5625/NCARLES
+csrc=source
+#######################################################################
+
+#######################################################################
+### Compile code
+echo 'Compile step'
+cd $dirm
+mkdir $rund
+rm -f -r $rund/*
+mkdir $rund/code
+cp $csrc/boundary/* $rund/code/
+cp $csrc/deriv/* $rund/code/
+cp $csrc/diff/* $rund/code/
+cp $csrc/fft/* $rund/code/
+cp $csrc/get/* $rund/code/
+cp $csrc/grid/* $rund/code/
+cp $csrc/hurr/* $rund/code/
+cp $csrc/init/* $rund/code/
+cp $csrc/main/* $rund/code/
+cp $csrc/misc/* $rund/code/
+cp $csrc/modules/* $rund/code/
+cp $csrc/mpi/* $rund/code/
+cp $csrc/restart/* $rund/code/
+cp $csrc/restore/* $rund/code/
+cp $csrc/rhs/* $rund/code/
+cp $csrc/save/* $rund/code/
+cp $csrc/setup/* $rund/code/
+cp $csrc/solve/* $rund/code/
+cp $csrc/stats/* $rund/code/
+cp $csrc/stokes/* $rund/code/
+cp $csrc/trans/* $rund/code/
+cd $rund/code
+. /curc/tools/utils/dkinit
+reuse Moab
+reuse Torque
+reuse .openmpi-1.4.5_intel-12.1.4
+mpif90 -r8 -132 -O3 -c modules.f module_byteswap.F90 -limf -lm
+mpif90 -r8 -132 -O3 -o lesmpi.a *.f *.F90 -limf -lm
+cd ../
+cp code/lesmpi.a ./ 
+#######################################################################
+
+#######################################################################
+### Execute code, either locally or using PBS
+echo 'Execute step'
+cat > EXEC_STEP << EXEC
+#!/bin/sh
+#PBS -N NCARLES
+#PBS -l walltime=1:00:00
+#PBS -l nodes=12:ppn=12:janus
+#PBS -A $pnum
+#PBS -q janus-debug
+#PBS -o exec.out
+#PBS -e exec.err
+. /curc/tools/utils/dkinit
+reuse .openmpi-1.4.5_intel-12.1.4
+cd $dirm/$rund
+mpirun ./lesmpi.a > $runo
+EXEC
+qsub EXEC_STEP
+#######################################################################
