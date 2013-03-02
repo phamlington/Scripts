@@ -1,6 +1,6 @@
 # How to compile OpenFOAM
 
-I've tried compiling many ways, but below are the instructions that gave me a working copy. There may be some missing steps, so if something comes across as strange, challenge it!
+I've tried compiling many ways, but below are the instructions that gave me a working copy. There shouldn't be any missing steps, but if something comes across as strange, challenge it!
 
 # Compiling OpenFOAM 2.1.1 with the system OpenMPI-1.4.3 and gcc-4.3.4
 
