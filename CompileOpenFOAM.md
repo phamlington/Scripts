@@ -40,7 +40,7 @@ use OpenMPI-1.4.3 > /dev/null</code></pre>
 
 Then add `source ~/useOpenFOAM.sh` to the bottom of your .my.bashrc file.
 
-Tell OpenFOAM to use this system OpenMPI by changing line 84 in $WM_PROJECT_DIR/etc/bash to SYSSTEMOPENMPI.
+Tell OpenFOAM to use this system OpenMPI by changing line 84 in $WM_PROJECT_DIR/etc/bash to SYSTEMOPENMPI.
 
 ## Begin the compile
 
