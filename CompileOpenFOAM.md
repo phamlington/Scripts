@@ -38,7 +38,7 @@ use .flex-2.5.35 > /dev/null
 use .gcc-4.3.4 > /dev/null
 use OpenMPI-1.4.3 > /dev/null</code></pre>
 
-Then add `source ~/openFoamUse.sh` to the bottom of your .my.bashrc file.
+Then add `source ~/useOpenFOAM.sh` to the bottom of your .my.bashrc file.
 
 Tell OpenFOAM to use this system OpenMPI by changing line 84 in $WM_PROJECT_DIR/etc/bash to SYSSTEMOPENMPI.
 
@@ -49,3 +49,18 @@ Now, log into a compile node (for example `ssh janus-compile1`). If you're alrea
 Run `foamSystemCheck`. If you get any errors, or your system can't find the file, then something has gone wrong.
 
 Move into the source code by running `cd $WM_PROJECT_DIR`, and kick off the compile with `./Allwmake 2>&1 | tee make.log`.
+
+## Testing Everything
+
+Ryan created the following super helpful test instructions:
+
+To test the installation, you can run `foamInstallationTest`.
+
+Then create a directory for the tutorials within `mkdir -p $FOAM_RUN`.
+
+Copy the tutorials to the run directory with `cp -r $FOAM_TUTORIALS $FOAM_RUN`
+
+Try to run laminar flow in a cavity:
+- `cd $FOAM_RUN/tutorials/incompressible/icoFoam/cavity`
+- `blockMesh`
+- `icoFoam`
