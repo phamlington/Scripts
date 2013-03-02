@@ -6,6 +6,7 @@ I've tried compiling many ways, but below are the instructions that gave me a wo
 
 We're going to use the system OpenMPI and gcc 4.3.4. 
 
+## Organizing everything
 Let's start by making sure all of our files are actually kept in our projects directory rather than our home directory. Wherever I have `username`, you should substitute in your username (for example, I would use spal1313).
 
 First, let's link a folder in our PROJ directory into our HOME directory:
@@ -20,9 +21,11 @@ Add the following to the bottom of your .my.bashrc file:
 
 <pre><code>export FOAM_INST_DIR=$HOME/OpenFOAM
 foamDotFile=$FOAM_INST_DIR/OpenFOAM-2.1.1/etc/bashrc
-[ -f $foamDotFile ] && . $foamDotFile</pre></code>
+[ -f $foamDotFile ] && . $foamDotFile</code></pre>
 
-and run the command `source .bashrc` .
+and run the command `source ~/.bashrc` .
+
+## Prepare the system for programs to be used
 
 Let's now prepare the system to use the needed programs. Create a file named in `$HOME/useOpenFOAM.sh` and include the following in it:
 
@@ -37,4 +40,12 @@ use OpenMPI-1.4.3 > /dev/null</code></pre>
 
 Then add `source ~/openFoamUse.sh` to the bottom of your .my.bashrc file.
 
-Tell OpenFOAM to use this system OpenMPI by changing line 84 in $WM_PROJECT_DIR/etc/bash to SYSSTEMOPENMPI
+Tell OpenFOAM to use this system OpenMPI by changing line 84 in $WM_PROJECT_DIR/etc/bash to SYSSTEMOPENMPI.
+
+## Begin the compile
+
+Now, log into a compile node (for example `ssh janus-compile1`). If you're already in a compile node, run `source ~/.bashrc` just to be safe.
+
+Run `foamSystemCheck`. If you get any errors, or your system can't find the file, then something has gone wrong.
+
+Move into the source code by running `cd $WM_PROJECT_DIR`, and kick off the compile with `./Allwmake 2>&1 | tee make.log`.
