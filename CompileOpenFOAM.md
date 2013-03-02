@@ -15,7 +15,7 @@ First, let's link a folder in our PROJ directory into our HOME directory:
 -  run `mkdir $PROJ/OpenFOAM`
 -  link the newly made file into your home directory by running `ln -s $PROJ/OpenFOAM $HOME/OpenFOAM`. You can check that this worked by running `touch $HOME/OpenFOAM/test`, and if it didn't work, try reversing the last two arguments to `ln`.
 
-Now, go ahead and download all of the source files onto your machine. I like to create a `source` directory, but that's just me. `tar xvf` them into your `$HOME/OpenFOAM` folder.
+Now, go ahead and download all of the source files onto your machine. I like to create a `source` directory, but that's just me. `tar xvf` them into your `$HOME/OpenFOAM` folder. You should now have `$HOME/OpenFOAM/OpenFOAM-2.1.1` and `$HOME/OpenFOAM/ThirdParty-2.1.1` folders.
 
 Add the following to the bottom of your .my.bashrc file:
 
